@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
-import studentRoutes from './routes/student.routes';
-import { CustomError } from './models/student.model';
+import studentRoutes from './routes/studentRoutes';
+import { CustomError } from './models/studentModel';
 
 const app = express();
 app.use(express.json());

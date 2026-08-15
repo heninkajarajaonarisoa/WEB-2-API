@@ -1,5 +1,5 @@
 import { db } from '../config/database';
-import { Student } from '../models/student.model';
+import { Student, User } from '../models/studentModel';
 
 export class StudentRepository {
   async findAll(): Promise<Student[]> {
@@ -43,6 +43,26 @@ export class StudentRepository {
       db.run('DELETE FROM students WHERE id = ?', [id], function (this: any, err: Error | null) {
         if (err) reject(err);
         else resolve(this.changes > 0);
+      });
+    });
+  }
+}
+
+export class UserRepository {
+  async findByEmail(email: string): Promise<User | undefined> {
+    return new Promise((resolve, reject) => {
+      db.get('SELECT * FROM users WHERE email = ?', [email], (err, row: User) => {
+        if (err) reject(err);
+        else resolve(row);
+      });
+    });
+  }
+
+  async create(email: string, passwordHash: string): Promise<User> {
+    return new Promise((resolve, reject) => {
+      db.run('INSERT INTO users (email, password) VALUES (?, ?)', [email, passwordHash], function (this: any, err: Error | null) {
+        if (err) reject(err);
+        else resolve({ id: this.lastID, email });
       });
     });
   }
