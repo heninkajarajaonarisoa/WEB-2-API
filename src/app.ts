@@ -1,8 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors'; // 1. Importer cors
 import studentRoutes from './routes/studentRoutes';
 import { CustomError } from './models/studentModel';
 
 const app = express();
+
+// 2. Activer CORS (autorise toutes les origines par défaut, ou configure selon ton frontend)
+app.use(cors());
+
 app.use(express.json());
 
 app.use('/students', studentRoutes);
